@@ -1,0 +1,4 @@
+<resources>
+	<string name="app_name">MyPaymentApp</string>
+	<string name="title_activity_user_details">UserDetailsActivity</string>
+</resources>
