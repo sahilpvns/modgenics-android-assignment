@@ -10,7 +10,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,12 +38,29 @@ fun UserDetailsForm() {
     var email by remember { mutableStateOf("") }
     var companyName by remember { mutableStateOf("") }
 
+    var errorMessage by remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Fill Your Details", fontSize = 24.sp, modifier = Modifier.padding(bottom = 16.dp))
+        Text(
+            text = "Fill Your Details",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(bottom = 32.dp),
+            fontStyle = FontStyle.Normal
+        )
+
+        // Error message display
+        if (errorMessage.isNotEmpty()) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                modifier = Modifier.padding(bottom = 16.dp),
+                fontSize = 14.sp
+            )
+        }
 
         OutlinedTextField(
             value = name,
@@ -54,7 +74,7 @@ fun UserDetailsForm() {
         OutlinedTextField(
             value = designation,
             onValueChange = { designation = it },
-            label = { Text("Designation",) },
+            label = { Text("Designation") },
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -90,17 +110,27 @@ fun UserDetailsForm() {
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(onClick = {
-            val intent = Intent(content, UserDetailsActivity::class.java).apply {
-                putExtra("username", name)
-                putExtra("designation", designation)
-                putExtra("mobile", mobileNumber)
-                putExtra("email", email)
-                putExtra("company", companyName)
+            when {
+                name.isEmpty() -> errorMessage = "Name cannot be empty."
+                designation.isEmpty() -> errorMessage = "Designation cannot be empty."
+                mobileNumber.isEmpty() -> errorMessage = "Mobile Number cannot be empty."
+                email.isEmpty() -> errorMessage = "Email cannot be empty."
+                companyName.isEmpty() -> errorMessage = "Company Name cannot be empty."
+                else -> {
+                    errorMessage = ""
+                    val intent = Intent(content, UserDetailsActivity::class.java).apply {
+                        putExtra("username", name)
+                        putExtra("designation", designation)
+                        putExtra("mobile", mobileNumber)
+                        putExtra("email", email)
+                        putExtra("company", companyName)
+                    }
+                    content.startActivity(intent)
+                }
             }
-            content.startActivity(intent)
-
         }, modifier = Modifier.fillMaxWidth()) {
             Text("Submit")
         }
     }
 }
+

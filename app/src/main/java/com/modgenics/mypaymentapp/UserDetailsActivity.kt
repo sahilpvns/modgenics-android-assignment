@@ -112,14 +112,14 @@ fun VisitingCard(username: String?, designation: String?, mobile: String?, email
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = username.toString(), fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White
-            )
+                text = username.toString(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp, color = Color.White)
             Text(
                 text = designation.toString(),
                 fontSize = 14.sp,
                 color = Color.LightGray,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+                modifier = Modifier.padding(bottom = 16.dp))
 
             InfoRow(iconId = R.drawable.ic_menu_call, info = "Mobile Number: $mobile")
             InfoRow(iconId = R.drawable.ic_dialog_email, info = "Email: $email")
