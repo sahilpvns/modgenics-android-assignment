@@ -65,6 +65,11 @@ class UserDetailsActivity : ComponentActivity(), PaymentResultListener {
 
     override fun onPaymentSuccess(razorpayPaymentID: String?) {
         Toast.makeText(this, "Payment Successful: $razorpayPaymentID", Toast.LENGTH_LONG).show()
+        shareWhatsapp()
+    }
+
+    private fun shareWhatsapp() {
+
     }
 
     override fun onPaymentError(code: Int, response: String?) {
@@ -103,7 +108,7 @@ fun VisitingCardScreen(
 
             Spacer(Modifier.padding(16.dp))
 
-            Button(onClick = {
+        /*    Button(onClick = {
                 val context = content
                 val bitmap = captureComposableAsBitmap(context) {
                     VisitingCard(username, designation, mobile, email, company)
@@ -111,7 +116,7 @@ fun VisitingCardScreen(
                 shareBitmap(context,bitmap)
             }, modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp)) {
                 Text(text = "Share to WhatsApp")
-            }
+            }*/
 
         }
     }
