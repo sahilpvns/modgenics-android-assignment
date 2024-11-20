@@ -12,11 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.modgenics.mypaymentapp.ui.theme.utils.Constant
+import com.modgenics.mypaymentapp.ui.theme.utils.Constant.captureComposableAsBitmap
+import com.modgenics.mypaymentapp.ui.theme.utils.Constant.shareBitmap
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
@@ -78,6 +81,8 @@ fun VisitingCardScreen(
     company: String?,
     onPayClick: (amount: Int, email: String?, mobile: String?) -> Unit
 ) {
+
+    val content = LocalContext.current
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
@@ -95,6 +100,19 @@ fun VisitingCardScreen(
                 }, modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp)) {
                 Text(text = "Pay ₹500")
             }
+
+            Spacer(Modifier.padding(16.dp))
+
+            Button(onClick = {
+                val context = content
+                val bitmap = captureComposableAsBitmap(context) {
+                    VisitingCard(username, designation, mobile, email, company)
+                }
+                shareBitmap(context,bitmap)
+            }, modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp)) {
+                Text(text = "Share to WhatsApp")
+            }
+
         }
     }
 }
@@ -127,9 +145,7 @@ fun VisitingCard(username: String?, designation: String?, mobile: String?, email
 
 @Composable
 fun InfoRow(iconId: Int, info: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)
-    ) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(vertical = 4.dp)) {
         Icon(
             painter = painterResource(id = iconId),
             contentDescription = "",
