@@ -82,7 +82,6 @@ fun VisitingCardScreen(
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
                 text = "Preview Your Visiting Card",
-                color = Color.White,
                 fontSize = 20.sp,
                 modifier = Modifier.padding(bottom = 20.dp)
             )
@@ -91,11 +90,9 @@ fun VisitingCardScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    onPayClick(500, email, mobile) // Example: Trigger payment of ₹500
-                },
-            ) {
+            Button(onClick = {
+                    onPayClick(500, email, mobile)
+                }, modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp)) {
                 Text(text = "Pay ₹500")
             }
         }
@@ -106,7 +103,7 @@ fun VisitingCardScreen(
 @Composable
 fun VisitingCard(username: String?, designation: String?, mobile: String?, email: String?, company: String?) {
     Card(
-        modifier = Modifier.fillMaxWidth(0.9f).padding(16.dp),
+        modifier = Modifier.fillMaxWidth().padding(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFF424242)),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
